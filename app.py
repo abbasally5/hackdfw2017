@@ -16,7 +16,7 @@ def hello():
 def hashtag():
     hashtag_text = request.form.get('hashtag', None)
     api = TwitterClient()
-    tweets_dict = api.get_tweets(query = hashtag_text, count = 10000)
+    tweets_dict = api.get_tweets(query = hashtag_text)
     #print(tweets_dict)
     #tweets = [json.dumps(tweet) for tweet in tweets_dict]
     #print json.dumps(tweets_dict)
