@@ -20,6 +20,7 @@
 		<script src="Projector.js"></script>
 		<script src="CanvasRenderer.js"></script>
 		<script src="stats.min.js"></script>
+        <script src="FlyControls.js"></script>
 		<script>
             
 			var container, stats;
@@ -28,8 +29,8 @@
             var color;
             var raycaster;
             var mouse;
-            var sum = 0;
-            var flag = 0;
+            var controls;
+            var radius = 2000;
 			var mouseX = 0, mouseY = 0;
 			var windowHalfX = window.innerWidth / 2;
 			var windowHalfY = window.innerHeight / 2;
@@ -71,7 +72,7 @@
 			function init() {
 				container = document.createElement( 'div' );
 				document.body.appendChild( container );
-				camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 10000 );
+				camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 15000 );
 				camera.position.z = 500;
 				scene = new THREE.Scene();
 				geometry = new THREE.BoxGeometry( 80, 80, 80 );
@@ -81,7 +82,9 @@
                 raycaster = new THREE.Raycaster();
                 mouse = new THREE.Vector2();
                 
-                //////////////////////////////////////////////////////////////                
+                controls = new THREE.FlyControls(camera);
+                
+                //****************************************************                
                 
                 // create the particle variables
                 var particleCount = 600,
@@ -112,7 +115,7 @@
 
                 // add it to the scene
                 scene.add(particleSystem);
-                //////////////////////////////////////////////////////////////
+                //*****************************************************//
                 
                 var temp = new THREE.Mesh(geometry, material);
 				for ( var i = 0; i < 600; i ++ ) {
@@ -122,12 +125,21 @@
                     else if(rand < 250)
                         color = green_sides;
                     else
-                        color = red_sides;
+                        color = blue_sides;
                     var material = THREE.MeshFaceMaterial(color);
 					var mesh = new THREE.Mesh( geometry, material );
-					mesh.position.x = Math.random() * 2000 - 1000;
+					/*mesh.position.x = Math.random() * 2000 - 1000;
 					mesh.position.y = Math.random() * 2000 - 1000;
-					mesh.position.z = Math.random() * 2000 - 1000;
+					mesh.position.z = Math.random() * 2000 - 1000;*/
+                    var u = Math.random();
+                    var v = Math.random();
+
+                    var theta = 2 * Math.PI * u;
+                    var phi = Math.acos(2 * v - 1);
+
+                    mesh.position.x = radius * Math.sin(phi) * Math.cos(theta);
+                    mesh.position.y = radius * Math.sin(phi) * Math.sin(theta);
+                    mesh.position.z = radius * Math.cos(phi);
 					mesh.rotation.x = Math.random() * 2 * Math.PI;
 					mesh.rotation.y = Math.random() * 2 * Math.PI;
 					mesh.matrixAutoUpdate = false;
@@ -164,6 +176,7 @@
 				stats.update();
 			}
             
+            //************************************************************************
             // animation loop
             function update() {
 
@@ -177,6 +190,8 @@
               // set up the next call
               requestAnimFrame(update);
             }
+            //*************************************************************************//
+            
 			function render() {
 				camera.position.x += ( mouseX - camera.position.x ) * .05;
 				camera.position.y += ( - mouseY - camera.position.y ) * .05;
