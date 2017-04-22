@@ -1,0 +1,20 @@
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+    <title>HackDFW</title>
+    {% block head %}
+    {% endblock %}
+    
+</head>
+<body>
+    {% block body %}
+    <form action="/hashtag" method="post">
+        Enter Hashtag:
+        <input type="text" name="hashtag">
+        <input type="submit" value="Submit">
+    </form>
+    {% endblock %}
+    
+</body>
+</html>

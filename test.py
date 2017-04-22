@@ -14,7 +14,7 @@ class TwitterClient(object):
         # keys and tokens from the Twitter Dev Console
         consumer_key = 'cV4wnecpl9WIMZgocjeWfaCLa'
         consumer_secret = 'owmk5cH8emocNZVQM7OyH99zszWjwhvucrfp7qUgtvls4Uzlar'
-        access_token = 'lXvSx8xRCC21RUmUtCjfiZHlOKt3idJfd5zef4T'
+        access_token = '1043044687-lXvSx8xRCC21RUmUtCjfiZHlOKt3idJfd5zef4T'
         access_token_secret = 'iIitJeVgPYktg8akrC89MUolsHBnoYHjaQtJox5tfckSi'
 
         # attempt authentication
@@ -92,15 +92,15 @@ def main(input, cnt):
     #for tweet in range(0, len(ptweets)):
     for tweet in ptweets[:10]:
         print(tweet['text'])
-        print(tweet['sentiment.polarity'])
+        print(tweet['sentiment'])
 
     print("##########NEGATIVE TWEETS##########")
     ntweets = [tweet for tweet in tweets if tweet['sentiment'] == 'negative']
     #for tweet in range(0, len(ntweets)):
     for tweet in ntweets[:10]:
         print(tweet['text'])
-        print(tweet['sentiment.polarity'])
+        print(tweet['sentiment'])
 
 if __name__ == "__main__":
     # calling main function
-    main('EarthDay', 100)
+    main('Donald Trump', 100)
