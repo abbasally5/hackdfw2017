@@ -74,6 +74,11 @@ class TwitterClient(object):
                 parsed_tweet['sentiment'] = self.get_tweet_sentiment(tweet.text)
                 #saving polarity of tweet
                 parsed_tweet['polarity'] = self.get_tweet_polarity(tweet.text)
+                #saving favorites of tweet
+                parsed_tweet['favorites'] = tweet.favorite_count
+                #saving retweets of tweet
+                pared_tweet['retweets'] = tweet.retweet_count
+
 
                 # appending parsed tweet to tweets list
                 if tweet.retweet_count > 0:
@@ -99,7 +104,7 @@ def main(input, cnt):
     for tweet in ptweets[:10]:
         #print(tweet['text'])
         #print(tweet['sentiment'])
-        print(tweet['polarity'])
+        #print(tweet['polarity'])
 
     print("##########NEGATIVE TWEETS##########")
     ntweets = [tweet for tweet in tweets if tweet['sentiment'] == 'negative']
@@ -107,7 +112,7 @@ def main(input, cnt):
     for tweet in ntweets[:10]:
         #print(tweet['text'])
         #print(tweet['sentiment'])
-        print(tweet['polarity'])
+        #print(tweet['polarity'])
 
 
 if __name__ == "__main__":
