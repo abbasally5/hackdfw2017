@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Worldview</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<style>
+			body {
+				background:#fff;
+				padding:0;
+				margin:0;
+				font-weight: bold;
+				overflow:hidden;
+			}
+		</style>
+	</head>
+	<body>
+
+		<script src="three.min.js"></script>
+		<script src="Projector.js"></script>
+		<script src="CanvasRenderer.js"></script>
+		<script src="stats.min.js"></script>
+		<script>
+            
+			var container, stats;
+			var camera, scene, renderer;
+			var geometry, group;
+            var color;
+            var raycaster;
+            var mouse;
+            var sum = 0;
+            var flag = 0;
+			var mouseX = 0, mouseY = 0;
+			var windowHalfX = window.innerWidth / 2;
+			var windowHalfY = window.innerHeight / 2;
+            var red_sides = [
+                new THREE.MeshBasicMaterial({color: 0xff4444, side: THREE.DoubleSide, overdraw: 0.5}),
+                new THREE.MeshBasicMaterial({color: 0xff3f3f, side: THREE.DoubleSide, overdraw: 0.5}),
+                new THREE.MeshBasicMaterial({color: 0xff3a3a, side: THREE.DoubleSide, overdraw: 0.5}),
+                new THREE.MeshBasicMaterial({color: 0xf23a3a, side: THREE.DoubleSide, overdraw: 0.5}),
+                new THREE.MeshBasicMaterial({color: 0xed3b3b, side: THREE.DoubleSide, overdraw: 0.5}),
+                new THREE.MeshBasicMaterial({color: 0xea4b4b, side: THREE.DoubleSide, overdraw: 0.5}),
+            ];
+            var green_sides = [
+                new THREE.MeshBasicMaterial({color: 0x98ff91, side: THREE.DoubleSide, overdraw: 0.5}),
+                new THREE.MeshBasicMaterial({color: 0x99fc92, side: THREE.DoubleSide, overdraw: 0.5}),
+                new THREE.MeshBasicMaterial({color: 0x8ff788, side: THREE.DoubleSide, overdraw: 0.5}),
+                new THREE.MeshBasicMaterial({color: 0x8ef287, side: THREE.DoubleSide, overdraw: 0.5}),
+                new THREE.MeshBasicMaterial({color: 0x9af993, side: THREE.DoubleSide, overdraw: 0.5}),
+                new THREE.MeshBasicMaterial({color: 0x96f78f, side: THREE.DoubleSide, overdraw: 0.5}),
+            ]
+            var blue_sides = [
+                new THREE.MeshBasicMaterial({color: 0x49b0ff, side: THREE.DoubleSide, overdraw: 0.5}),
+                new THREE.MeshBasicMaterial({color: 0x4aa8ef, side: THREE.DoubleSide, overdraw: 0.5}),
+                new THREE.MeshBasicMaterial({color: 0x3facff, side: THREE.DoubleSide, overdraw: 0.5}),
+                new THREE.MeshBasicMaterial({color: 0x5bb8ff, side: THREE.DoubleSide, overdraw: 0.5}),
+                new THREE.MeshBasicMaterial({color: 0x5bc3ff, side: THREE.DoubleSide, overdraw: 0.5}),
+                new THREE.MeshBasicMaterial({color: 0x5fbaef, side: THREE.DoubleSide, overdraw: 0.5}),
+            ];
+            var white_sides = [
+                new THREE.MeshBasicMaterial({color: 0xffffff, side: THREE.DoubleSide, overdraw: 0.5}),
+                new THREE.MeshBasicMaterial({color: 0xf4f4f4, side: THREE.DoubleSide, overdraw: 0.5}),
+                new THREE.MeshBasicMaterial({color: 0xeff1f4, side: THREE.DoubleSide, overdraw: 0.5}),
+                new THREE.MeshBasicMaterial({color: 0xf4f5f7, side: THREE.DoubleSide, overdraw: 0.5}),
+                new THREE.MeshBasicMaterial({color: 0xf7f7f7, side: THREE.DoubleSide, overdraw: 0.5}),
+                new THREE.MeshBasicMaterial({color: 0xf9f9f9, side: THREE.DoubleSide, overdraw: 0.5}),
+            ];
+			document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+			init();
+			animate();
+			function init() {
+				container = document.createElement( 'div' );
+				document.body.appendChild( container );
+				camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 10000 );
+				camera.position.z = 500;
+				scene = new THREE.Scene();
+				geometry = new THREE.BoxGeometry( 80, 80, 80 );
+                //var material = new THREE.MeshBasicMaterial({color: gray_sides, overdraw: 0.5});
+				group = new THREE.Group();
+                
+                raycaster = new THREE.Raycaster();
+                mouse = new THREE.Vector2();
+                
+                //////////////////////////////////////////////////////////////                
+                
+                // create the particle variables
+                var particleCount = 600,
+                    particles = new THREE.Geometry(),
+                    pMaterial = new THREE.ParticleBasicMaterial({
+                      color: 0xffffba,
+                      size: 20
+                    });
+
+                // now create the individual particles
+                for (var p = 0; p < particleCount; p++) {
+
+                  // create a particle with random
+                  // position values, -250 -> 250
+                  var pX = Math.random() * 8000 - 4000,
+                      pY = Math.random() * 8000 - 4000,
+                      pZ = Math.random() * 8000 - 4000,
+                      particle = new THREE.Vector3(pX, pY, pZ);
+
+                  // add it to the geometry
+                  particles.vertices.push(particle);
+                }
+
+                // create the particle system
+                var particleSystem = new THREE.ParticleSystem(
+                    particles,
+                    pMaterial);
+
+                // add it to the scene
+                scene.add(particleSystem);
+                //////////////////////////////////////////////////////////////
+                
+                var temp = new THREE.Mesh(geometry, material);
+				for ( var i = 0; i < 600; i ++ ) {
+                    var rand = Math.round(Math.random()*500 - 1);
+                    if(rand > 0 && rand < 50)
+                        color = white_sides;
+                    else if(rand < 250)
+                        color = green_sides;
+                    else
+                        color = red_sides;
+                    var material = THREE.MeshFaceMaterial(color);
+					var mesh = new THREE.Mesh( geometry, material );
+					mesh.position.x = Math.random() * 2000 - 1000;
+					mesh.position.y = Math.random() * 2000 - 1000;
+					mesh.position.z = Math.random() * 2000 - 1000;
+					mesh.rotation.x = Math.random() * 2 * Math.PI;
+					mesh.rotation.y = Math.random() * 2 * Math.PI;
+					mesh.matrixAutoUpdate = false;
+					mesh.updateMatrix();
+                    //THREE.merge(temp,mesh);
+					group.add( mesh );
+				}
+				scene.add( group );
+				renderer = new THREE.WebGLRenderer();
+				renderer.setClearColor( 0x2b2b2b );
+				renderer.setPixelRatio( window.devicePixelRatio );
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				container.appendChild( renderer.domElement );
+				stats = new Stats();
+				container.appendChild( stats.dom );
+				//
+				window.addEventListener( 'resize', onWindowResize, false );
+			}
+			function onWindowResize() {
+				windowHalfX = window.innerWidth / 2;
+				windowHalfY = window.innerHeight / 2;
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+				renderer.setSize( window.innerWidth, window.innerHeight );
+			}
+			function onDocumentMouseMove(event) {
+				mouseX = ( event.clientX - windowHalfX ) * 10;
+				mouseY = ( event.clientY - windowHalfY ) * 10;
+			}
+			//
+			function animate() {
+				requestAnimationFrame( animate );
+				render();
+				stats.update();
+			}
+            
+            // animation loop
+            function update() {
+
+              // add some rotation to the system
+              particleSystem.rotation.y += 0.01;
+
+
+              // draw
+              renderer.render(scene, camera);
+
+              // set up the next call
+              requestAnimFrame(update);
+            }
+			function render() {
+				camera.position.x += ( mouseX - camera.position.x ) * .05;
+				camera.position.y += ( - mouseY - camera.position.y ) * .05;
+				camera.lookAt( scene.position );
+				var currentSeconds = Date.now();
+				//group.rotation.x = Math.sin( currentSeconds * 0.0007 ) * 0.5;
+				//group.rotation.y = Math.sin( currentSeconds * 0.0003 ) * 0.5;
+				//group.rotation.z = Math.sin( currentSeconds * 0.0002 ) * 0.5;
+				renderer.render( scene, camera );
+			}
+		</script>
+
+	</body>
+</html>
