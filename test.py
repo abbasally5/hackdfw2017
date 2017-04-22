@@ -48,6 +48,10 @@ class TwitterClient(object):
         else:
             return 'negative'
 
+    def get_tweet_polarity(self, tweet):
+        analysis = TextBlob(self.clean_tweet(tweet))
+        return analysis.sentiment.polarity
+
     def get_tweets(self, query, count = 10):
         '''
         Main function to fetch tweets and parse them.
@@ -68,6 +72,8 @@ class TwitterClient(object):
                 parsed_tweet['text'] = tweet.text
                 # saving sentiment of tweet
                 parsed_tweet['sentiment'] = self.get_tweet_sentiment(tweet.text)
+                #saving polarity of tweet
+                parsed_tweet['polarity'] = self.get_tweet_polarity(tweet.text)
 
                 # appending parsed tweet to tweets list
                 if tweet.retweet_count > 0:
@@ -91,15 +97,18 @@ def main(input, cnt):
     ptweets = [tweet for tweet in tweets if tweet['sentiment'] == 'positive']
     #for tweet in range(0, len(ptweets)):
     for tweet in ptweets[:10]:
-        print(tweet['text'])
-        print(tweet['sentiment'])
+        #print(tweet['text'])
+        #print(tweet['sentiment'])
+        print(tweet['polarity'])
 
     print("##########NEGATIVE TWEETS##########")
     ntweets = [tweet for tweet in tweets if tweet['sentiment'] == 'negative']
     #for tweet in range(0, len(ntweets)):
     for tweet in ntweets[:10]:
-        print(tweet['text'])
-        print(tweet['sentiment'])
+        #print(tweet['text'])
+        #print(tweet['sentiment'])
+        print(tweet['polarity'])
+
 
 if __name__ == "__main__":
     # calling main function
