@@ -1,7 +1,7 @@
 import re
 import tweepy
 import json
-from secrets import * 
+from secrets import *
 from tweepy import OAuthHandler
 from textblob import TextBlob
 
@@ -18,29 +18,29 @@ class TwitterClient(object):
         '''
 
         # keys and tokens from the Twitter Dev Console
-        consumer_key = TWITTER_CONSUMER_KEY 
-        consumer_secret = TWITTER_CONSUMER_SECRET 
-        access_token = TWITTER_ACCESS_TOKEN 
-        access_token_secret = TWITTER_ACCESS_TOKEN_SECRET 
+        consumer_key = TWITTER_CONSUMER_KEY
+        consumer_secret = TWITTER_CONSUMER_SECRET
+        access_token = TWITTER_ACCESS_TOKEN
+        access_token_secret = TWITTER_ACCESS_TOKEN_SECRET
 
         # attempt authentication
         try:
             # create OAuthHandler object
             self.auth = OAuthHandler(consumer_key, consumer_secret)
-            
+
             # set access token and secret
             self.auth.set_access_token(access_token, access_token_secret)
-            
+
             # create tweepy API object to fetch tweets
             self.api = tweepy.API(self.auth)
-        
+
         except:
             print("Error: Authentication Failed")
-    
+
     def clean_tweet(self, tweet):
 
         '''
-        Utility function to clean tweet text by removing links, special 
+        Utility function to clean tweet text by removing links, special
         characters using simple regex statements.
         '''
 
@@ -48,7 +48,7 @@ class TwitterClient(object):
             "(\w+:\/\/\S+)", " ", tweet).split())
 
     def get_tweet_sentiment(self, tweet):
-   
+
         '''
         Utility function to classify sentiment of passed tweet
         using textblob's sentiment method
@@ -56,7 +56,7 @@ class TwitterClient(object):
 
         # create TextBlob object of passed tweet text
         analysis = TextBlob(self.clean_tweet(tweet))
-        
+
         # set sentiment
         if analysis.sentiment.polarity > 0:
             return analysis.sentiment.polarity
@@ -70,20 +70,20 @@ class TwitterClient(object):
         return analysis.sentiment.polarity
 
     def get_tweets(self, query, lang='en', count=100):
-        
+
         '''
         Main function to fetch tweets and parse them.
         '''
-       
-        # sentiment scores (+, n, -) 
+
+        # sentiment scores (+, n, -)
         scores = [[0, 0], 0, [0, 0]]
 
         try:
             # call twitter api to fetch tweets
-            fetched_tweets = [tweet._json for tweet in 
-                tweepy.Cursor(self.api.search, q=query, 
+            fetched_tweets = [tweet._json for tweet in
+                tweepy.Cursor(self.api.search, q=query,
                 count=count, lang=lang).items(count)]
-            
+
             # parsing tweets one by one and get its polarity
             for tweet in fetched_tweets:
                 score = self.get_tweet_polarity(tweet['text'])
