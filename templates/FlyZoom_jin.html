@@ -22,8 +22,8 @@
             /* stop the glowing blue shadow */
             .add-on .form-control:focus {
              box-shadow:none;
-             -webkit-box-shadow:none; 
-             border-color:#cccccc; 
+             -webkit-box-shadow:none;
+             border-color:#cccccc;
             }
 
             .navbar-form {
@@ -37,13 +37,23 @@
 
             div.transparent {
                 opacity: 0.45;
-            } 
+            }
 
             div.transparent:hover {
                 opacity: 1.0;
             }
         </style>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+				<script src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
+
+				<script src="static/js/three.min.js"></script>
+				<script src="static/js/Projector.js"></script>
+				<script src="static/js/CanvasRenderer.js"></script>
+				<script src="static/js/stats2.min.js"></script>
+		        <script src="static/js/FlyControls.js"></script>
 	</head>
 	<body>
     <div class="container-fluid">
@@ -53,27 +63,22 @@
       <form id="searchBar" class="navbar-form" role="search">
         <div class="input-group add-on">
           <input class="form-control" placeholder="Get a glimpse into the world..." name="srch-term" id="srch-term" type="text">
-        </div>
+        	<script type="text/javascript">
+					$('#srch-term').click(function(){
+						$('#srch-term').prop('disabled', true\false);
+					});
+        	</script>
+				</div>
       </form>
         </div>
     </div>
     </div>
     </div>
     <div id="refresh">
-        
-    </div>
-        <script src="https://code.jquery.com/jquery-3.2.1.min.js"
-            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-            crossorigin="anonymous"></script>
 
-		<script src="static/js/three.min.js"></script>
-		<script src="static/js/Projector.js"></script>
-		<script src="static/js/CanvasRenderer.js"></script>
-		<script src="static/js/stats2.min.js"></script>
-        <script src="static/js/FlyControls.js"></script>
+    </div>
 		<script>
 
-            
 			var container, stats;
 			var camera, scene, renderer;
 			var geometry, group;
@@ -138,34 +143,34 @@
                 //container.empty();
 				camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 20000 );
 				camera.position.z = 500;
-                
+
                 raycaster = new THREE.Raycaster();
                 mouse = new THREE.Vector2();
-                
-                
+
+
                 controls = new THREE.FlyControls(camera);
                 controls.domElement = container;
                 /*console.log(camera.position.x);
                 console.log(camera.position.y);
                 console.log(camera.position.z);*/
-                
-                
+
+
                 controls.movementSpeed = 4000;
                 controls.rollSpeed = Math.PI / 10;
 				controls.autoForward = false;
 				controls.dragToLook = true;
-                
-                
-                
+
+
+
                 scene = new THREE.Scene();
 				geometry = new THREE.BoxGeometry( 80, 80, 80 );
                 //var material = new THREE.MeshBasicMaterial({color: gray_sides, overdraw: 0.5});
-				group = new THREE.Group();                
-                
+				group = new THREE.Group();
+
                 var temp = new THREE.Mesh(geometry, material);
                 var total;
                 if (tweets == null) {
-                    total = 700; 
+                    total = 700;
                 }
                 else {
                     total = numPos + numNeg + numNeut;
@@ -173,10 +178,10 @@
 
 								var posScore = tweets['pos_polarity'];
 								var negScore = tweets['neg_polarity'];
-								
+
 								// ratio
 								var pos = posScore / (posScore + Math.abs(negScore));
-								
+
 								colors = []
 
 								// first, count the postive ones,
@@ -207,7 +212,7 @@
                         else
                             color = blue_sides;
                     }
-                    else { 
+                    else {
 											color = colors[i]
 										}
 
@@ -232,7 +237,7 @@
                 //THREE.merge(temp,mesh);
 				group.add(mesh);
                 }
-                    
+
                 moon = new THREE.BoxGeometry(500,500,500);
                 group2 = new THREE.Group();
                 for(var g = -2; g < 3; g++){
@@ -256,11 +261,11 @@
                     group2.add(mesh2);
                 }
                 group.add(group2);
-                
-                    
-                    
-                    //****************************************************                
-                
+
+
+
+                    //****************************************************
+
                 // create the particle variables
                 var particleCount = 2500,
                     particles = new THREE.Geometry(),
@@ -286,11 +291,11 @@
                 var particleSystem = new THREE.ParticleSystem(
                     particles,
                     pMaterial);
-                
+
                 // add it to the scene
                 scene.add(particleSystem);
                 //*****************************************************//
-                    
+
 				scene.add(group);
                 scene.add(group2);
 				renderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
@@ -299,10 +304,10 @@
 				//renderer.setSize( window.innerWidth, window.innerHeight - document.getElementById('searchBar').offsetHeight);
 				renderer.setSize( window.innerWidth, window.innerHeight)
 				container.appendChild( renderer.domElement );
-                
+
                 renderer.gammaInput = true;
                 renderer.gammaOutput = true;
-                
+
 				stats = new Stats();
 				container.appendChild( stats.dom );
 				//
@@ -321,12 +326,12 @@
 			//}
 			//
 			function animate() {
-                
+
 				requestAnimationFrame( animate );
 				render();
 				stats.update();
 			}
-            
+
             //************************************************************************
             // animation loop
             function update() {
@@ -342,7 +347,7 @@
               //requestAnimFrame(update);
             }
             //*************************************************************************//
-            
+
 			function render() {
                 if(camera.position.x < 7000 && camera.position.y < 7000 && camera.position.z > 7500)
                     camera.position.z = 7500;
@@ -367,7 +372,7 @@
                     camera.position.y = 7000;
                     camera.position.z = 7500;
                 }
-                
+
                 if(camera.position.x > -7000 && camera.position.y > -7000 && camera.position.z < -7500)
                     camera.position.z = -7500;
                 else if(camera.position.x > -7000 && camera.position.y < -7000 && camera.position.z > -7500)
@@ -391,8 +396,8 @@
                     camera.position.y = -7000;
                     camera.position.z = -7500;
                 }
-                
-                
+
+
                 var delta = clock.getDelta();
                 controls.update(delta);
 				//camera.position.x += ( mouseX - camera.position.x ) * .05;
@@ -401,7 +406,7 @@
 				var currentSeconds = Date.now();
 				group.rotation.x += 0.00025;
 				group.rotation.y += 0.0025;
-                
+
                 group2.rotation.z -= 0.002;
                 //group2.rotation.y -= 0.002;
 				//group.rotation.z = Math.sin( currentSeconds * 0.0002 ) * 0.5;
