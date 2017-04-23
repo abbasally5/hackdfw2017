@@ -81,9 +81,10 @@
             var raycaster;
             var mouse;
             var controls;
+            var mesh2;
             var clock = new THREE.Clock();
             var radius = 2000;
-			var mouseX = 0, mouseY = 0;
+			//var mouseX = 0, mouseY = 0;
 			var windowHalfX = window.innerWidth / 2;
 			var windowHalfY = window.innerHeight / 2;
             var red_sides = [
@@ -95,20 +96,20 @@
                 new THREE.MeshBasicMaterial({color: 0xea4b4b, side: THREE.DoubleSide, overdraw: 0.5}),
             ];
             var green_sides = [
-                new THREE.MeshBasicMaterial({color: 0x98ff91, side: THREE.DoubleSide, overdraw: 0.5}),
-                new THREE.MeshBasicMaterial({color: 0x99fc92, side: THREE.DoubleSide, overdraw: 0.5}),
-                new THREE.MeshBasicMaterial({color: 0x8ff788, side: THREE.DoubleSide, overdraw: 0.5}),
-                new THREE.MeshBasicMaterial({color: 0x8ef287, side: THREE.DoubleSide, overdraw: 0.5}),
-                new THREE.MeshBasicMaterial({color: 0x9af993, side: THREE.DoubleSide, overdraw: 0.5}),
-                new THREE.MeshBasicMaterial({color: 0x96f78f, side: THREE.DoubleSide, overdraw: 0.5}),
+                new THREE.MeshBasicMaterial({color: 0x2ded3d, side: THREE.DoubleSide, overdraw: 0.5}),
+                new THREE.MeshBasicMaterial({color: 0x2de23c, side: THREE.DoubleSide, overdraw: 0.5}),
+                new THREE.MeshBasicMaterial({color: 0x32e541, side: THREE.DoubleSide, overdraw: 0.5}),
+                new THREE.MeshBasicMaterial({color: 0x2fef3f, side: THREE.DoubleSide, overdraw: 0.5}),
+                new THREE.MeshBasicMaterial({color: 0x2ee83d, side: THREE.DoubleSide, overdraw: 0.5}),
+                new THREE.MeshBasicMaterial({color: 0x30e53f, side: THREE.DoubleSide, overdraw: 0.5}),
             ]
             var blue_sides = [
-                new THREE.MeshBasicMaterial({color: 0x49b0ff, side: THREE.DoubleSide, overdraw: 0.5}),
-                new THREE.MeshBasicMaterial({color: 0x4aa8ef, side: THREE.DoubleSide, overdraw: 0.5}),
-                new THREE.MeshBasicMaterial({color: 0x3facff, side: THREE.DoubleSide, overdraw: 0.5}),
-                new THREE.MeshBasicMaterial({color: 0x5bb8ff, side: THREE.DoubleSide, overdraw: 0.5}),
-                new THREE.MeshBasicMaterial({color: 0x5bc3ff, side: THREE.DoubleSide, overdraw: 0.5}),
-                new THREE.MeshBasicMaterial({color: 0x5fbaef, side: THREE.DoubleSide, overdraw: 0.5}),
+                new THREE.MeshBasicMaterial({color: 0x193dc1, side: THREE.DoubleSide, overdraw: 0.5}),
+                new THREE.MeshBasicMaterial({color: 0x163bbf, side: THREE.DoubleSide, overdraw: 0.5}),
+                new THREE.MeshBasicMaterial({color: 0x163abc, side: THREE.DoubleSide, overdraw: 0.5}),
+                new THREE.MeshBasicMaterial({color: 0x163bbf, side: THREE.DoubleSide, overdraw: 0.5}),
+                new THREE.MeshBasicMaterial({color: 0x1a3ebf, side: THREE.DoubleSide, overdraw: 0.5}),
+                new THREE.MeshBasicMaterial({color: 0x183cbf, side: THREE.DoubleSide, overdraw: 0.5}),
             ];
             var white_sides = [
                 new THREE.MeshBasicMaterial({color: 0xffffff, side: THREE.DoubleSide, overdraw: 0.5}),
@@ -118,7 +119,13 @@
                 new THREE.MeshBasicMaterial({color: 0xf7f7f7, side: THREE.DoubleSide, overdraw: 0.5}),
                 new THREE.MeshBasicMaterial({color: 0xf9f9f9, side: THREE.DoubleSide, overdraw: 0.5}),
             ];
-			document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+            var moon_sides = [
+                new THREE.MeshBasicMaterial({color: 0xb5b5b3, side: THREE.DoubleSide, overdraw: 0.5}),
+                new THREE.MeshBasicMaterial({color: 0xb2b2b0, side: THREE.DoubleSide, overdraw: 0.5}),
+                new THREE.MeshBasicMaterial({color: 0xb5b5b1, side: THREE.DoubleSide, overdraw: 0.5}),
+                new THREE.MeshBasicMaterial({color: 0xadada8, side: THREE.DoubleSide, overdraw: 0.5})
+            ];
+			//document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 			init();
 			animate();
 			function init(tweets=null, numPos=null, numNeg=null, numNeut=null) {
@@ -129,66 +136,31 @@
                 container = document.getElementById('refresh');
 				//document.body.appendChild( container );
                 //container.empty();
-				camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 15000 );
+				camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 20000 );
 				camera.position.z = 500;
                 
-                //raycaster = new THREE.Raycaster();
-                //mouse = new THREE.Vector2();
+                raycaster = new THREE.Raycaster();
+                mouse = new THREE.Vector2();
                 
                 
-
-                /*
                 controls = new THREE.FlyControls(camera);
                 controls.domElement = container;
                 /*console.log(camera.position.x);
                 console.log(camera.position.y);
                 console.log(camera.position.z);*/
                 
-                /*
-                controls.movementSpeed = 5500;
-                controls.rollSpeed = Math.PI / 6;
+                
+                controls.movementSpeed = 4000;
+                controls.rollSpeed = Math.PI / 10;
 				controls.autoForward = false;
 				controls.dragToLook = true;
-                */
+                
                 
                 
                 scene = new THREE.Scene();
 				geometry = new THREE.BoxGeometry( 80, 80, 80 );
                 //var material = new THREE.MeshBasicMaterial({color: gray_sides, overdraw: 0.5});
-				group = new THREE.Group();
-                
-                //****************************************************                
-                
-                // create the particle variables
-                var particleCount = 5000,
-                    particles = new THREE.Geometry(),
-                    pMaterial = new THREE.ParticleBasicMaterial({
-                      color: 0xffffba,
-                      size: 20
-                    });
-
-                // now create the individual particles
-                for (var p = 0; p < particleCount; p++) {
-
-                  // create a particle with random
-                  // position values, -250 -> 250
-                  var pX = Math.random() * 16000 - 4000,
-                      pY = Math.random() * 16000 - 4000,
-                      pZ = Math.random() * 16000 - 4000,
-                      particle = new THREE.Vector3(pX, pY, pZ);
-
-                  // add it to the geometry
-                  particles.vertices.push(particle);
-                }
-
-                // create the particle system
-                var particleSystem = new THREE.ParticleSystem(
-                    particles,
-                    pMaterial);
-
-                // add it to the scene
-                scene.add(particleSystem);
-                //*****************************************************//
+				group = new THREE.Group();                
                 
                 var temp = new THREE.Mesh(geometry, material);
                 var total;
@@ -218,28 +190,88 @@
                         else
                             color = blue_sides;
                     }
-                    var material = THREE.MeshFaceMaterial(color);
-					var mesh = new THREE.Mesh( geometry, material );
-					/*mesh.position.x = Math.random() * 2000 - 1000;
-					mesh.position.y = Math.random() * 2000 - 1000;
-					mesh.position.z = Math.random() * 2000 - 1000;*/
-                    var u = Math.random();
-                    var v = Math.random();
+                var material = THREE.MeshFaceMaterial(color);
+				var mesh = new THREE.Mesh( geometry, material );
+				/*mesh.position.x = Math.random() * 2000 - 1000;
+				mesh.position.y = Math.random() * 2000 - 1000;
+				mesh.position.z = Math.random() * 2000 - 1000;*/
+                var u = Math.random();
+                var v = Math.random();
 
-                    var theta = 2 * Math.PI * u;
-                    var phi = Math.acos(2 * v - 1);
+                var theta = 2 * Math.PI * u;
+                var phi = Math.acos(2 * v - 1);
 
-                    mesh.position.x = radius * Math.sin(phi) * Math.cos(theta);
-                    mesh.position.y = radius * Math.sin(phi) * Math.sin(theta);
-                    mesh.position.z = radius * Math.cos(phi);
-					mesh.rotation.x = Math.random() * 2 * Math.PI;
-					mesh.rotation.y = Math.random() * 2 * Math.PI;
-					mesh.matrixAutoUpdate = false;
-					mesh.updateMatrix();
-                    //THREE.merge(temp,mesh);
-					group.add( mesh );
-				}
-				scene.add( group );
+                mesh.position.x = radius * Math.sin(phi) * Math.cos(theta);
+                mesh.position.y = radius * Math.sin(phi) * Math.sin(theta);
+                mesh.position.z = radius * Math.cos(phi);
+				mesh.rotation.x = Math.random() * 2 * Math.PI;
+				mesh.rotation.y = Math.random() * 2 * Math.PI;
+				mesh.matrixAutoUpdate = false;
+				mesh.updateMatrix();
+                //THREE.merge(temp,mesh);
+				group.add(mesh);
+                }
+                    
+                moon = new THREE.BoxGeometry(500,500,500);
+                group2 = new THREE.Group();
+                for(var g = -2; g < 3; g++){
+                    mesh2 = new THREE.Mesh(moon, moon_sides);
+                    mesh2.position.x = 2800;
+                    mesh2.position.y = 2800;
+                    mesh2.position.z = 1800;
+                    mesh2.rotation.x = g * 2;
+                    mesh2.matrixAutoUpdate = false;
+                    mesh2.updateMatrix();
+                    group2.add(mesh2);
+                }
+                for(g = -2; g < 3; g++){
+                    mesh2 = new THREE.Mesh(moon, moon_sides);
+                    mesh2.position.x = 2800;
+                    mesh2.position.y = 2800;
+                    mesh2.position.z = 1800;
+                    mesh2.rotation.y = g * 2;
+                    mesh2.matrixAutoUpdate = false;
+                    mesh2.updateMatrix();
+                    group2.add(mesh2);
+                }
+                group.add(group2);
+                
+                    
+                    
+                    //****************************************************                
+                
+                // create the particle variables
+                var particleCount = 2500,
+                    particles = new THREE.Geometry(),
+                    pMaterial = new THREE.ParticleBasicMaterial({
+                      color: 0xffffba,
+                      size: 20
+                    });
+
+                // now create the individual particles
+                for (var p = 0; p < particleCount; p++) {
+
+                  // create a particle with random
+                  // position values, -250 -> 250
+                  var pX = Math.random() * 16000 - 8000,
+                      pY = Math.random() * 16000 - 8000,
+                      pZ = Math.random() * 16000 - 8000,
+                      particle = new THREE.Vector3(pX, pY, pZ);
+
+                  // add it to the geometry
+                  particles.vertices.push(particle);
+                }
+                // create the particle system
+                var particleSystem = new THREE.ParticleSystem(
+                    particles,
+                    pMaterial);
+                
+                // add it to the scene
+                scene.add(particleSystem);
+                //*****************************************************//
+                    
+				scene.add(group);
+                scene.add(group2);
 				renderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
 				renderer.setClearColor( 0x2b2b2b );
 				renderer.setPixelRatio( window.devicePixelRatio );
@@ -262,12 +294,13 @@
 				camera.updateProjectionMatrix();
 				renderer.setSize( window.innerWidth, window.innerHeight );
 			}
-			function onDocumentMouseMove(event) {
-				mouseX = ( event.clientX - windowHalfX ) * 10;
-				mouseY = ( event.clientY - windowHalfY ) * 10;
-			}
+			//function onDocumentMouseMove(event) {
+			//	mouseX = ( event.clientX - windowHalfX ) * 10;
+			//	mouseY = ( event.clientY - windowHalfY ) * 10;
+			//}
 			//
 			function animate() {
+                
 				requestAnimationFrame( animate );
 				render();
 				stats.update();
@@ -278,14 +311,14 @@
             function update() {
 
               // add some rotation to the system
-              particleSystem.rotation.y += 0.01;
+              //particleSystem.rotation.y += 0.01;
 
 
               // draw
               renderer.render(scene, camera);
 
               // set up the next call
-              requestAnimFrame(update);
+              //requestAnimFrame(update);
             }
             //*************************************************************************//
             
@@ -340,13 +373,16 @@
                 
                 
                 var delta = clock.getDelta();
-                //controls.update(delta);
-				camera.position.x += ( mouseX - camera.position.x ) * .05;
-				camera.position.y += ( - mouseY - camera.position.y ) * .05;
-				camera.lookAt( scene.position );
+                controls.update(delta);
+				//camera.position.x += ( mouseX - camera.position.x ) * .05;
+				//camera.position.y += ( - mouseY - camera.position.y ) * .05;
+				//camera.lookAt( scene.position );
 				var currentSeconds = Date.now();
 				group.rotation.x += 0.00025;
 				group.rotation.y += 0.0025;
+                
+                group2.rotation.z -= 0.002;
+                //group2.rotation.y -= 0.002;
 				//group.rotation.z = Math.sin( currentSeconds * 0.0002 ) * 0.5;
 				renderer.render( scene, camera );
 			}

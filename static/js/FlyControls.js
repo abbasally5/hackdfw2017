@@ -14,7 +14,7 @@ THREE.FlyControls = function ( object, domElement ) {
 	this.movementSpeed = 1.0;
 	this.rollSpeed = 0.005;
 
-	this.dragToLook = false;
+	//this.dragToLook = false;
 	this.autoForward = false;
 
 	// disable default target object behavior
@@ -122,18 +122,18 @@ THREE.FlyControls = function ( object, domElement ) {
 
 		if ( this.dragToLook ) {
 
-			this.mouseStatus ++;
+			//this.mouseStatus ++;
 
 		} else {
 
-			switch ( event.button ) {
+			/*switch ( event.button ) {
 
 				case 0: this.moveState.forward = 1; break;
 				case 2: this.moveState.back = 1; break;
 
 			}
 
-			this.updateMovementVector();
+			this.updateMovementVector();*/
 
 		}
 
@@ -163,13 +163,13 @@ THREE.FlyControls = function ( object, domElement ) {
 
 		if ( this.dragToLook ) {
 
-			this.mouseStatus --;
+			/*this.mouseStatus --;
 
-			this.moveState.yawLeft = this.moveState.pitchDown = 0;
+			this.moveState.yawLeft = this.moveState.pitchDown = 0;*/
 
 		} else {
 
-			switch ( event.button ) {
+			/*switch ( event.button ) {
 
 				case 0: this.moveState.forward = 0; break;
 				case 2: this.moveState.back = 0; break;
@@ -180,7 +180,7 @@ THREE.FlyControls = function ( object, domElement ) {
 
 		}
 
-		this.updateRotationVector();
+		this.updateRotationVector();*/
 
 	};
 
