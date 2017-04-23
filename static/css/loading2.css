@@ -1,0 +1,124 @@
+@-webkit-keyframes color-shift {
+  0%, 100% {
+    background: #ccc;
+    fill: #ccc;
+  }
+  33% {
+    background: #e0e0e0;
+    fill: #e0e0e0;
+  }
+  66% {
+    background: whitesmoke;
+    fill: whitesmoke;
+  }
+}
+@-moz-keyframes color-shift {
+  0%, 100% {
+    background: #ccc;
+    fill: #ccc;
+  }
+  33% {
+    background: #e0e0e0;
+    fill: #e0e0e0;
+  }
+  66% {
+    background: whitesmoke;
+    fill: whitesmoke;
+  }
+}
+@keyframes color-shift {
+  0%, 100% {
+    background: #ccc;
+    fill: #ccc;
+  }
+  33% {
+    background: #e0e0e0;
+    fill: #e0e0e0;
+  }
+  66% {
+    background: whitesmoke;
+    fill: whitesmoke;
+  }
+}
+.logo.animate span,
+svg path {
+  -webkit-animation: color-shift 1.2s infinite;
+  -moz-animation: color-shift 1.2s infinite;
+  animation: color-shift 1.2s infinite;
+}
+.logo.animate span:nth-child(2),
+svg path:nth-child(2) {
+  -webkit-animation-delay: -0.8s;
+  -moz-animation-delay: -0.8s;
+  animation-delay: -0.8s;
+}
+.logo.animate span:nth-child(3),
+svg path:nth-child(3) {
+  -webkit-animation-delay: -0.4s;
+  -moz-animation-delay: -0.4s;
+  animation-delay: -0.4s;
+}
+
+.logo {
+  position: relative;
+  height: 200px;
+  width: 180px;
+}
+.logo .cube {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+.logo .cube:nth-child(2) {
+  -webkit-transform: rotate(180deg) scale(0.5);
+  -moz-transform: rotate(180deg) scale(0.5);
+  -ms-transform: rotate(180deg) scale(0.5);
+  -o-transform: rotate(180deg) scale(0.5);
+  transform: rotate(180deg) scale(0.5);
+}
+.logo .cube span {
+  -webkit-transform-origin: 0 0;
+  -moz-transform-origin: 0 0;
+  -ms-transform-origin: 0 0;
+  -o-transform-origin: 0 0;
+  transform-origin: 0 0;
+  position: absolute;
+  height: 100px;
+  width: 100px;
+}
+.logo .cube span:nth-child(1) {
+  -webkit-transform: rotate(210deg) skewX(-30deg) scaleY(0.864);
+  -moz-transform: rotate(210deg) skewX(-30deg) scaleY(0.864);
+  -ms-transform: rotate(210deg) skewX(-30deg) scaleY(0.864);
+  -o-transform: rotate(210deg) skewX(-30deg) scaleY(0.864);
+  transform: rotate(210deg) skewX(-30deg) scaleY(0.864);
+  background: whitesmoke;
+}
+.logo .cube span:nth-child(2) {
+  -webkit-transform: rotate(90deg) skewX(-30deg) scaleY(0.864);
+  -moz-transform: rotate(90deg) skewX(-30deg) scaleY(0.864);
+  -ms-transform: rotate(90deg) skewX(-30deg) scaleY(0.864);
+  -o-transform: rotate(90deg) skewX(-30deg) scaleY(0.864);
+  transform: rotate(90deg) skewX(-30deg) scaleY(0.864);
+  background: #ccc;
+}
+.logo .cube span:nth-child(3) {
+  -webkit-transform: rotate(-30deg) skewX(-30deg) scaleY(0.864);
+  -moz-transform: rotate(-30deg) skewX(-30deg) scaleY(0.864);
+  -ms-transform: rotate(-30deg) skewX(-30deg) scaleY(0.864);
+  -o-transform: rotate(-30deg) skewX(-30deg) scaleY(0.864);
+  transform: rotate(-30deg) skewX(-30deg) scaleY(0.864);
+  background: #e0e0e0;
+}
+
+body {
+  text-align: center;
+  font-family: sans-serif;
+  color: #aaa;
+}
+body section {
+  display: inline-block;
+  margin: 10px 20px;
+  vertical-align: top;
+}
+

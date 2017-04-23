@@ -93,6 +93,8 @@ $('#srch-term').keypress(function (e) {
         //alert('you pressed enter');
         $('#srch-term').blur();
         //alert('here');
+        console.log('loading');
+        $('#loading_modal2').modal('show');
         $.ajax({
             url: '/hashtag',
             type: "POST",
