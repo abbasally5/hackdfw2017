@@ -30,8 +30,9 @@
             var raycaster;
             var mouse;
             var controls;
+            var clock = new THREE.Clock();
             var radius = 2000;
-			var mouseX = 0, mouseY = 0;
+			//var mouseX = 0, mouseY = 0;
 			var windowHalfX = window.innerWidth / 2;
 			var windowHalfY = window.innerHeight / 2;
             var red_sides = [
@@ -74,20 +75,29 @@
 				document.body.appendChild( container );
 				camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 15000 );
 				camera.position.z = 500;
-				scene = new THREE.Scene();
+                
+                //raycaster = new THREE.Raycaster();
+                //mouse = new THREE.Vector2();
+                
+                controls = new THREE.FlyControls(camera);
+                controls.domElement = container;
+                /*console.log(camera.position.x);
+                console.log(camera.position.y);
+                console.log(camera.position.z);*/
+                controls.movementSpeed = 5500;
+                controls.rollSpeed = Math.PI / 6;
+				controls.autoForward = false;
+				controls.dragToLook = true;
+                
+                scene = new THREE.Scene();
 				geometry = new THREE.BoxGeometry( 80, 80, 80 );
                 //var material = new THREE.MeshBasicMaterial({color: gray_sides, overdraw: 0.5});
 				group = new THREE.Group();
                 
-                raycaster = new THREE.Raycaster();
-                mouse = new THREE.Vector2();
-                
-                controls = new THREE.FlyControls(camera);
-                
                 //****************************************************                
                 
                 // create the particle variables
-                var particleCount = 600,
+                var particleCount = 5000,
                     particles = new THREE.Geometry(),
                     pMaterial = new THREE.ParticleBasicMaterial({
                       color: 0xffffba,
@@ -99,9 +109,9 @@
 
                   // create a particle with random
                   // position values, -250 -> 250
-                  var pX = Math.random() * 8000 - 4000,
-                      pY = Math.random() * 8000 - 4000,
-                      pZ = Math.random() * 8000 - 4000,
+                  var pX = Math.random() * 16000 - 4000,
+                      pY = Math.random() * 16000 - 4000,
+                      pZ = Math.random() * 16000 - 4000,
                       particle = new THREE.Vector3(pX, pY, pZ);
 
                   // add it to the geometry
@@ -118,12 +128,22 @@
                 //*****************************************************//
                 
                 var temp = new THREE.Mesh(geometry, material);
-				for ( var i = 0; i < 600; i ++ ) {
+				/*for (var i = 0; i < 700; i ++) {
                     var rand = Math.round(Math.random()*500 - 1);
                     if(rand > 0 && rand < 50)
                         color = white_sides;
                     else if(rand < 250)
                         color = green_sides;
+                    else
+                        color = blue_sides;*/
+                var total,pos,neg,neu,grab;
+                  for (var i = 0; i < total; i ++) {
+                    if(grab == 0){
+                        color = white_sides;
+                    }
+                    else if(grab > 0){
+                        color = green_sides;
+                    }
                     else
                         color = blue_sides;
                     var material = THREE.MeshFaceMaterial(color);
@@ -148,11 +168,15 @@
 					group.add( mesh );
 				}
 				scene.add( group );
-				renderer = new THREE.WebGLRenderer();
+				renderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
 				renderer.setClearColor( 0x2b2b2b );
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( window.innerWidth, window.innerHeight );
 				container.appendChild( renderer.domElement );
+                
+                renderer.gammaInput = true;
+                renderer.gammaOutput = true;
+                
 				stats = new Stats();
 				container.appendChild( stats.dom );
 				//
@@ -166,8 +190,8 @@
 				renderer.setSize( window.innerWidth, window.innerHeight );
 			}
 			function onDocumentMouseMove(event) {
-				mouseX = ( event.clientX - windowHalfX ) * 10;
-				mouseY = ( event.clientY - windowHalfY ) * 10;
+				//mouseX = ( event.clientX - windowHalfX ) * 10;
+				//mouseY = ( event.clientY - windowHalfY ) * 10;
 			}
 			//
 			function animate() {
@@ -193,12 +217,63 @@
             //*************************************************************************//
             
 			function render() {
-				camera.position.x += ( mouseX - camera.position.x ) * .05;
-				camera.position.y += ( - mouseY - camera.position.y ) * .05;
-				camera.lookAt( scene.position );
+                if(camera.position.x < 7000 && camera.position.y < 7000 && camera.position.z > 7500)
+                    camera.position.z = 7500;
+                else if(camera.position.x < 7000 && camera.position.y > 7000 && camera.position.z < 7500)
+                    camera.position.y = 7000;
+                else if(camera.position.x < 7000 && camera.position.y > 7000 && camera.position.z > 7500){
+                    camera.position.y = 7000;
+                    camera.position.z = 7500;
+                }
+                else if(camera.position.x > 7000 && camera.position.y < 7000 && camera.position.z < 7500)
+                    camera.position.x = 7000;
+                else if(camera.position.x > 7000 && camera.position.y < 7000 && camera.position.z > 7500){
+                    camera.position.x = 7000;
+                    camera.position.z = 7500;
+                }
+                else if(camera.position.x > 7000 && camera.position.y > 7000 && camera.position.z < 7500){
+                    camera.position.x = 7000;
+                    camera.position.y = 7000;
+                }
+                else if(camera.position.x > 7000 && camera.position.y > 7000 && camera.position.z > 7500){
+                    camera.position.x = 7000;
+                    camera.position.y = 7000;
+                    camera.position.z = 7500;
+                }
+                
+                if(camera.position.x > -7000 && camera.position.y > -7000 && camera.position.z < -7500)
+                    camera.position.z = -7500;
+                else if(camera.position.x > -7000 && camera.position.y < -7000 && camera.position.z > -7500)
+                    camera.position.y = -7000;
+                else if(camera.position.x > -7000 && camera.position.y < -7000 && camera.position.z < -7500){
+                    camera.position.y = -7000;
+                    camera.position.z = -7500;
+                }
+                else if(camera.position.x < -7000 && camera.position.y > -7000 && camera.position.z > -7500)
+                    camera.position.x = -7000;
+                else if(camera.position.x < -7000 && camera.position.y > -7000 && camera.position.z < -7500){
+                    camera.position.x = -7000;
+                    camera.position.z = -7500;
+                }
+                else if(camera.position.x < -7000 && camera.position.y < -7000 && camera.position.z > -7500){
+                    camera.position.x = -7000;
+                    camera.position.y = -7000;
+                }
+                else if(camera.position.x < -7000 && camera.position.y < -7000 && camera.position.z < -7500){
+                    camera.position.x = -7000;
+                    camera.position.y = -7000;
+                    camera.position.z = -7500;
+                }
+                
+                
+                var delta = clock.getDelta();
+                controls.update(delta);
+				//camera.position.x += ( mouseX - camera.position.x ) * .05;
+				//camera.position.y += ( - mouseY - camera.position.y ) * .05;
+				//camera.lookAt( scene.position );
 				var currentSeconds = Date.now();
-				//group.rotation.x = Math.sin( currentSeconds * 0.0007 ) * 0.5;
-				//group.rotation.y = Math.sin( currentSeconds * 0.0003 ) * 0.5;
+				group.rotation.x += 0.00025;
+				group.rotation.y += 0.0025;
 				//group.rotation.z = Math.sin( currentSeconds * 0.0002 ) * 0.5;
 				renderer.render( scene, camera );
 			}
