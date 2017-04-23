@@ -1,7 +1,7 @@
 from flask import Flask
 from flask import render_template, request, redirect, url_for, jsonify, Response
 
-from test import *
+from test_jin import *
 import json
 
 app = Flask(__name__)
@@ -53,4 +53,4 @@ def hashtag():
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host='0.0.0.0', port=5000)

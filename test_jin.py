@@ -89,7 +89,7 @@ class TwitterClient(object):
                 if score > 0:
                     scores[0][0] += 1       # increment positive
                     scores[0][1] += score   # add score (+)
-                else if score == 0:
+                elif score == 0:
                     scores[1] += 1          # number of neutral ++
                 else:
                     scores[2][0] += 1       # increment negative

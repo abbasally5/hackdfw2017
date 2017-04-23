@@ -45,23 +45,28 @@
         </style>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 	</head>
-	<body>
-    <div class="container-fluid">
-    <div class="row">
-    <div class="col-xl-8">
-    <div class="transparent">
-      <form id="searchBar" class="navbar-form" role="search">
-        <div class="input-group add-on">
-          <input class="form-control" placeholder="Get a glimpse into the world..." name="srch-term" id="srch-term" type="text">
+    <body>
+    <!--<div class="container-fluid">-->
+    <!--<div class="row">-->
+    <!--<div class="col-xl-8">-->
+    <!--<div class="transparent">-->
+    <!--  <form id="searchBar" class="navbar-form" role="search">-->
+    <!--    <div class="input-group add-on">-->
+    <!--      <input class="form-control" placeholder="Get a glimpse into the world..." name="srch-term" id="srch-term" type="text">-->
+    <!--    </div>-->
+    <!--  </form>-->
+    <!--    </div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+             <form id="searchBar" accept-charset="utf-8">
+                 <input type="text" name="srch-term" value="">
+                 <input type="submit" value="Continue &rarr;">
+             </form>
+
+        <div id="refresh">
+            
         </div>
-      </form>
-        </div>
-    </div>
-    </div>
-    </div>
-    <div id="refresh">
-        
-    </div>
         <script src="https://code.jquery.com/jquery-3.2.1.min.js"
             integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
             crossorigin="anonymous"></script>
@@ -169,37 +174,37 @@
                 }
                 else {
                     total = numPos + numNeg + numNeut;
+
+                    var posScore = tweets['pos_polarity'];
+                    var negScore = tweets['neg_polarity'];
+                    
+                    // ratio
+                    var pos = posScore / (posScore + Math.abs(negScore));
+                    
+                    colors = []
+
+                    // first, count the postive ones,
+                    for (var i = 0; i < total * pos; i++ ) {
+                        colors.push(green_sides);
+                    }
+
+                    // the rest should be negative ones
+                    for (var i = 0; i < total - total * pos; i++) {
+                        colors.push(blue_sides);
+                    }
+
+                    // shuffle the list of colors, so that they can be assigned
+                    // randomly while keeping the ratio.
+                    function shuffle(a) {
+                        for (let i = a.length; i; i--) {
+                            let j = Math.floor(Math.random() * i);
+                            [a[i - 1], a[j]] = [a[j], a[i - 1]];
+                        }
+                    }
+                    shuffle(colors);
                 }
 
-								var posScore = tweets['pos_polarity'];
-								var negScore = tweets['neg_polarity'];
-								
-								// ratio
-								var pos = posScore / (posScore + Math.abs(negScore));
-								
-								colors = []
-
-								// first, count the postive ones,
-								for (var i = 0; i < total * pos; i++ ) {
-									colors.push(green_sides);
-								}
-
-								// the rest should be negative ones
-								for (var i = 0; i < total - total * pos; i++) {
-									colors.push(blue_sides);
-								}
-
-								// shuffle the list of colors, so that they can be assigned
-								// randomly while keeping the ratio.
-								function shuffle(a) {
-								    for (let i = a.length; i; i--) {
-								        let j = Math.floor(Math.random() * i);
-								        [a[i - 1], a[j]] = [a[j], a[i - 1]];
-								    }
-								}
-								shuffle(colors);
-
-								for (var i = 0; i < total; i ++) {
+				for (var i = 0; i < total; i ++) {
                     if (tweets == null)  {
                         var rand = Math.round(Math.random()*500 - 1);
                         if(rand < 200)
@@ -208,38 +213,38 @@
                             color = blue_sides;
                     }
                     else { 
-											color = colors[i]
-										}
+					    color = colors[i];
+					}
 
                     var material = THREE.MeshFaceMaterial(color);
-										var mesh = new THREE.Mesh( geometry, material );
-										/*mesh.position.x = Math.random() * 2000 - 1000;
-										mesh.position.y = Math.random() * 2000 - 1000;
-										mesh.position.z = Math.random() * 2000 - 1000;*/
+                    var mesh = new THREE.Mesh( geometry, material );
+                    /*mesh.position.x = Math.random() * 2000 - 1000;
+                    mesh.position.y = Math.random() * 2000 - 1000;
+                    mesh.position.z = Math.random() * 2000 - 1000;*/
                     var u = Math.random();
                     var v = Math.random();
 
-                var theta = 2 * Math.PI * u;
-                var phi = Math.acos(2 * v - 1);
+                    var theta = 2 * Math.PI * u;
+                    var phi = Math.acos(2 * v - 1);
 
-                mesh.position.x = radius * Math.sin(phi) * Math.cos(theta);
-                mesh.position.y = radius * Math.sin(phi) * Math.sin(theta);
-                mesh.position.z = radius * Math.cos(phi);
-				mesh.rotation.x = Math.random() * 2 * Math.PI;
-				mesh.rotation.y = Math.random() * 2 * Math.PI;
-				mesh.matrixAutoUpdate = false;
-				mesh.updateMatrix();
-                //THREE.merge(temp,mesh);
-				group.add(mesh);
+                    mesh.position.x = radius * Math.sin(phi) * Math.cos(theta);
+                    mesh.position.y = radius * Math.sin(phi) * Math.sin(theta);
+                    mesh.position.z = radius * Math.cos(phi);
+                    mesh.rotation.x = Math.random() * 2 * Math.PI;
+                    mesh.rotation.y = Math.random() * 2 * Math.PI;
+                    mesh.matrixAutoUpdate = false;
+                    mesh.updateMatrix();
+                    //THREE.merge(temp,mesh);
+                    group.add(mesh);
                 }
                     
-                moon = new THREE.BoxGeometry(500,500,500);
+                moon = new THREE.BoxGeometry(350,350,350);
                 group2 = new THREE.Group();
                 for(var g = -2; g < 3; g++){
                     mesh2 = new THREE.Mesh(moon, moon_sides);
-                    mesh2.position.x = 2800;
-                    mesh2.position.y = 2800;
-                    mesh2.position.z = 1800;
+                    mesh2.position.x = 2400;
+                    mesh2.position.y = 2400;
+                    mesh2.position.z = 1400;
                     mesh2.rotation.x = g * 2;
                     mesh2.matrixAutoUpdate = false;
                     mesh2.updateMatrix();
@@ -247,9 +252,9 @@
                 }
                 for(g = -2; g < 3; g++){
                     mesh2 = new THREE.Mesh(moon, moon_sides);
-                    mesh2.position.x = 2800;
-                    mesh2.position.y = 2800;
-                    mesh2.position.z = 1800;
+                    mesh2.position.x = 2400;
+                    mesh2.position.y = 2400;
+                    mesh2.position.z = 1400;
                     mesh2.rotation.y = g * 2;
                     mesh2.matrixAutoUpdate = false;
                     mesh2.updateMatrix();
@@ -296,8 +301,8 @@
 				renderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
 				renderer.setClearColor( 0x2b2b2b );
 				renderer.setPixelRatio( window.devicePixelRatio );
-				//renderer.setSize( window.innerWidth, window.innerHeight - document.getElementById('searchBar').offsetHeight);
-				renderer.setSize( window.innerWidth, window.innerHeight)
+				renderer.setSize( window.innerWidth, window.innerHeight - document.getElementById('searchBar').offsetHeight);
+				//renderer.setSize( window.innerWidth, window.innerHeight)
 				container.appendChild( renderer.domElement );
                 
                 renderer.gammaInput = true;
@@ -310,10 +315,13 @@
 			}
 			function onWindowResize() {
 				windowHalfX = window.innerWidth / 2;
-				windowHalfY = window.innerHeight / 2;
-				camera.aspect = window.innerWidth / window.innerHeight;
+				//windowHalfY = window.innerHeight / 2;
+				windowHalfY = (window.innerHeight - document.getElementById('searchBar').offsetHeight) / 2;
+				//camera.aspect = window.innerWidth / window.innerHeight;
+				camera.aspect = window.innerWidth / (window.innerHeight - document.getElementById('searchBar').offsetHeight);
 				camera.updateProjectionMatrix();
-				renderer.setSize( window.innerWidth, window.innerHeight );
+				//renderer.setSize( window.innerWidth, window.innerHeight );
+				renderer.setSize( window.innerWidth, (window.innerHeight - document.getElementById('searchBar').offsetHeight));
 			}
 			//function onDocumentMouseMove(event) {
 			//	mouseX = ( event.clientX - windowHalfX ) * 10;
@@ -402,7 +410,7 @@
 				group.rotation.x += 0.00025;
 				group.rotation.y += 0.0025;
                 
-                group2.rotation.z -= 0.002;
+                group2.rotation.y -= 0.0015;
                 //group2.rotation.y -= 0.002;
 				//group.rotation.z = Math.sin( currentSeconds * 0.0002 ) * 0.5;
 				renderer.render( scene, camera );
