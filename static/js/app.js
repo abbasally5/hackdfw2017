@@ -16,9 +16,6 @@ function Stats(sentimentArr, polarityArr) {
 }
 
 
-
-
-
 var hashtag_success = function(json) {
     //alert(json.tweets[0].text);
     //alert(json.tweets[0].sentiment);
@@ -30,7 +27,7 @@ var hashtag_success = function(json) {
     //alert(arr);
     //alert(json['tweets']);
     var data = json['tweets'];
-    $('#tweets').empty();
+    //$('#tweets').empty();
     var sentArr = {'positive': 0,
                    'negative': 0,
                    'neutral': 0}; 
@@ -58,17 +55,20 @@ var hashtag_success = function(json) {
             polarArr['neutral'] += tweet.polarity;
         }
         //console.log(json.tweets[i].text);
+        /*
         $('#tweets').append('<p>' + tweet.text + '</p>');
         $('#tweets').append('<p>' + tweet.sentiment+ '</p>');
         $('#tweets').append('<p>' + tweet.polarity+ '</p>');
         $('#tweets').append('</br>');
+        */
 
     }
     polarArr['positive'] /= sentArr['positive'];
     polarArr['negative'] /= sentArr['negative'];
     polarArr['neutral'] /= sentArr['neutral'];
     var stats = new Stats(sentArr, polarArr);
-    console.log(stats);
+    //console.log(stats);
+    /*
     $('#stats').empty();
     $('#stats').append('<p>Num Pos: ' + stats.numPos + '</p>');
     $('#stats').append('<p>Num Neg: ' + stats.numNeg + '</p>');
@@ -76,17 +76,18 @@ var hashtag_success = function(json) {
     $('#stats').append('<p>Avg Pos: ' + stats.avgPos + '</p>');
     $('#stats').append('<p>Avg Neg: ' + stats.avgNeg + '</p>');
     $('#stats').append('<p>Avg Neut: ' + stats.avgNeut + '</p>');
+    */
     return true;
 }
 
-$('#hashtag_form').submit(function(e) {
+$('#searchBar').submit(function(e) {
     e.preventDefault();
     $.ajax({
         url: '/hashtag',
         type: "POST",
         datatype: "json",
         data: {
-            'hashtag': $("#hashtag_input").val()
+            'hashtag': $("#srch-term").val()
               },
         success: hashtag_success
     });
