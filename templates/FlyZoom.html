@@ -180,7 +180,10 @@
                         else
                             color = blue_sides;
                     }
-                    else {
+                    else { 
+
+												/*
+
                         if(tweets[i]['polarity'] == 0){
                             color = white_sides;
                         }
@@ -189,14 +192,20 @@
                         }
                         else
                             color = blue_sides;
-                    }
-                var material = THREE.MeshFaceMaterial(color);
-				var mesh = new THREE.Mesh( geometry, material );
-				/*mesh.position.x = Math.random() * 2000 - 1000;
-				mesh.position.y = Math.random() * 2000 - 1000;
-				mesh.position.z = Math.random() * 2000 - 1000;*/
-                var u = Math.random();
-                var v = Math.random();
+                    
+												*/
+
+												var posScore = tweets['pos_polarity'];
+												var negScore = tweets['neg_polarity'];
+
+										}
+                    var material = THREE.MeshFaceMaterial(color);
+					var mesh = new THREE.Mesh( geometry, material );
+					/*mesh.position.x = Math.random() * 2000 - 1000;
+					mesh.position.y = Math.random() * 2000 - 1000;
+					mesh.position.z = Math.random() * 2000 - 1000;*/
+                    var u = Math.random();
+                    var v = Math.random();
 
                 var theta = 2 * Math.PI * u;
                 var phi = Math.acos(2 * v - 1);
