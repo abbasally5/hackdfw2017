@@ -8,8 +8,8 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello():
-    return render_template('base.html') 
-    #return render_template('bird/webgl_gpgpu_birds.html') 
+    return render_template('base.html')
+    #return render_template('bird/webgl_gpgpu_birds.html')
 
 
 @app.route("/hashtag", methods=['POST'])
