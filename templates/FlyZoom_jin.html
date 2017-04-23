@@ -170,42 +170,52 @@
                 else {
                     total = numPos + numNeg + numNeut;
                 }
+
+								var posScore = tweets['pos_polarity'];
+								var negScore = tweets['neg_polarity'];
+								
+								// ratio
+								var pos = posScore / (posScore + Math.abs(negScore));
+								
+								colors = []
+
+								// first, count the postive ones,
+								for (var i = 0; i < total * pos; i++ ) {
+									colors.push(green_sides);
+								}
+
+								// the rest should be negative ones
+								for (var i = 0; i < total - total * pos; i++) {
+									colors.push(blue_sides);
+								}
+
+								// shuffle the list of colors, so that they can be assigned
+								// randomly while keeping the ratio.
+								function shuffle(a) {
+								    for (let i = a.length; i; i--) {
+								        let j = Math.floor(Math.random() * i);
+								        [a[i - 1], a[j]] = [a[j], a[i - 1]];
+								    }
+								}
+								shuffle(colors);
+
 								for (var i = 0; i < total; i ++) {
                     if (tweets == null)  {
                         var rand = Math.round(Math.random()*500 - 1);
-                        if(rand > 0 && rand < 50)
-                            color = white_sides;
-                        else if(rand < 250)
+                        if(rand < 200)
                             color = green_sides;
                         else
                             color = blue_sides;
                     }
                     else { 
-
-												/*
-
-                        if(tweets[i]['polarity'] == 0){
-                            color = white_sides;
-                        }
-                        else if(tweets[i]['polarity'] > 0){
-                            color = green_sides;
-                        }
-                        else
-                            color = blue_sides;
-                    
-												*/
-
-												var posScore = tweets['pos_polarity'];
-												var negScore = tweets['neg_polarity'];
-												
-			
-
+											color = colors[i]
 										}
+
                     var material = THREE.MeshFaceMaterial(color);
-					var mesh = new THREE.Mesh( geometry, material );
-					/*mesh.position.x = Math.random() * 2000 - 1000;
-					mesh.position.y = Math.random() * 2000 - 1000;
-					mesh.position.z = Math.random() * 2000 - 1000;*/
+										var mesh = new THREE.Mesh( geometry, material );
+										/*mesh.position.x = Math.random() * 2000 - 1000;
+										mesh.position.y = Math.random() * 2000 - 1000;
+										mesh.position.z = Math.random() * 2000 - 1000;*/
                     var u = Math.random();
                     var v = Math.random();
 

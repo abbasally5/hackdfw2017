@@ -12,7 +12,7 @@ _demo = ['corgi']
 def hello():
     #return render_template('base.html') 
     #return render_template('bird/webgl_gpgpu_birds.html') 
-    return render_template('FlyZoom.html')
+    return render_template('FlyZoom_jin.html')
 
 
 @app.route("/hashtag", methods=['POST'])
