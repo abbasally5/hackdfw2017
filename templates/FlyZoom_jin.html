@@ -4,6 +4,10 @@
 		<title>Worldview</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="static/css/loading2.css">
+        <link rel="stylesheet" href=""css type="text/css" media="screen" charset="utf-8">
+        <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 		<style>
 			body {
 				background:#fff;
@@ -63,9 +67,25 @@
                 display: inline-block;
                 vertical-align: middle;
             }
+
+            #legend {
+                background-color: white;
+                padding: 5px;
+                position: fixed;
+                bottom: 10px;
+                left: 10px; 
+                z-index: 10000;
+                opacity: 0.9;
+            }
+
+            #blue {
+                color: #163bbf;
+            }
+
+            #green {
+                color: #2de23c;
+            }
         </style>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-        <link rel="stylesheet" href="static/css/loading2.css">
 
 				<script src="https://code.jquery.com/jquery-3.2.1.min.js"
             integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
@@ -96,6 +116,10 @@
     </div>
     <div id="refresh">
 
+    </div>
+    <div id="legend">
+        <p id="blue">Negative Sentiment</p>
+        <p id="green">Positive Sentiment</p>
     </div>
     <div id="loading_modal2" class="modal fade">
         <div class="modal-dialog">
