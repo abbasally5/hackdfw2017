@@ -1,5 +1,6 @@
 import re
 import tweepy
+import json
 from tweepy import OAuthHandler
 from textblob import TextBlob
 
@@ -42,17 +43,17 @@ class TwitterClient(object):
         analysis = TextBlob(self.clean_tweet(tweet))
         # set sentiment
         if analysis.sentiment.polarity > 0:
-            return 'positive'
+            return 'positive', analysis.sentiment.polarity
         elif analysis.sentiment.polarity == 0:
-            return 'neutral'
+            return 'neutral', analysis.sentiment.polarity
         else:
-            return 'negative'
+            return 'negative', analysis.sentiment.polarity
 
     def get_tweet_polarity(self, tweet):
         analysis = TextBlob(self.clean_tweet(tweet))
         return analysis.sentiment.polarity
 
-    def get_tweets(self, query, count = 10):
+    def get_tweets(self, query, lang='en', count=100):
         '''
         Main function to fetch tweets and parse them.
         '''
@@ -61,8 +62,10 @@ class TwitterClient(object):
 
         try:
             # call twitter api to fetch tweets
-            fetched_tweets = self.api.search(q = query, count = count)
-            print(count)
+            #fetched_tweets = self.api.search(q = query)
+            fetched_tweets = [tweet._json for tweet in tweepy.Cursor(self.api.search, q=query, count=count, lang=lang).items(count)]
+
+            #print(count)
             print(len(fetched_tweets))
 
             # parsing tweets one by one
@@ -71,19 +74,20 @@ class TwitterClient(object):
                 parsed_tweet = {}
 
                 # saving text of tweet
-                parsed_tweet['text'] = tweet.text
+                parsed_tweet['text'] = tweet['text']
                 # saving sentiment of tweet
-                parsed_tweet['sentiment'] = self.get_tweet_sentiment(tweet.text)
+                #parsed_tweet['sentiment'] = self.get_tweet_sentiment(tweet['text'])
                 #saving polarity of tweet
-                parsed_tweet['polarity'] = self.get_tweet_polarity(tweet.text)
+                #parsed_tweet['polarity'] = self.get_tweet_polarity(tweet['text'])
+                parsed_tweet['sentiment'], parsed_tweet['polarity'] = self.get_tweet_sentiment(tweet['text'])
                 #saving favorites of tweet
-                parsed_tweet['favorites'] = tweet.favorite_count
+                parsed_tweet['favorites'] = tweet['favorite_count']
                 #saving retweets of tweet
-                parsed_tweet['retweets'] = tweet.retweet_count
+                parsed_tweet['retweets'] = tweet['retweet_count']
 
 
                 # appending parsed tweet to tweets list
-                if tweet.retweet_count > 0:
+                if tweet['retweet_count'] > 0:
                     # if tweet has retweets, ensure that it is appended only once
                     if parsed_tweet not in tweets:
                         tweets.append(parsed_tweet)
@@ -99,7 +103,13 @@ class TwitterClient(object):
 def main(input, cnt):
     api = TwitterClient()
 
-    tweets = api.get_tweets(query = input, count = cnt)
+    #tweets = api.get_tweets(query = input, count = cnt)
+    tweets = [tweet._json for tweet in tweepy.Cursor(api.api.search, q=input, count=200, lang='en').items(200)]
+    print tweets[1]
+    #print json.dumps(tweets[1]._json)
+    print(tweets[0]['text'])
+    print(len(tweets))
+    
     #print("##########POSITIVE TWEETS##########")
     ptweets = [tweet for tweet in tweets if tweet['sentiment'] == 'positive']
     #for tweet in range(0, len(ptweets)):

@@ -12,9 +12,52 @@
 				font-weight: bold;
 				overflow:hidden;
 			}
-		</style>
+
+            .add-on {
+                border-left-width:0;left:-2px;
+                -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+                box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+            }
+
+            /* stop the glowing blue shadow */
+            .add-on .form-control:focus {
+             box-shadow:none;
+             -webkit-box-shadow:none; 
+             border-color:#cccccc; 
+            }
+
+            .navbar-form {
+                text-align: center;
+            }
+
+            .input-group {
+                width: 90%;
+            }
+
+            div.transparent {
+                opacity: 0.45;
+            } 
+
+            div.transparent:hover {
+                opacity: 1.0;
+            }
+        </style>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 	</head>
 	<body>
+        <div class="container-fluid">
+        <div class="row">
+        <div class="col-xl-8">
+        <div class="transparent">
+          <form class="navbar-form" role="search">
+            <div class="input-group add-on">
+              <input class="form-control" placeholder="Get a glimpse into the world..." name="srch-term" id="srch-term" type="text">
+            </div>
+          </form>
+            </div>
+        </div>
+        </div>
+        </div>
 
 		<script src="static/js/three.min.js"></script>
 		<script src="static/js/Projector.js"></script>
@@ -128,14 +171,15 @@
                 //*****************************************************//
                 
                 var temp = new THREE.Mesh(geometry, material);
-				/*for (var i = 0; i < 700; i ++) {
+				for (var i = 0; i < 700; i ++) {
                     var rand = Math.round(Math.random()*500 - 1);
                     if(rand > 0 && rand < 50)
                         color = white_sides;
                     else if(rand < 250)
                         color = green_sides;
                     else
-                        color = blue_sides;*/
+                        color = blue_sides;
+                /*
                 var total,pos,neg,neu,grab;
                   for (var i = 0; i < total; i ++) {
                     if(grab == 0){
@@ -146,6 +190,7 @@
                     }
                     else
                         color = blue_sides;
+                */
                     var material = THREE.MeshFaceMaterial(color);
 					var mesh = new THREE.Mesh( geometry, material );
 					/*mesh.position.x = Math.random() * 2000 - 1000;
