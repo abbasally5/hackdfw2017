@@ -75,7 +75,7 @@ class TwitterClient(object):
         '''
        
         # sentiment scores (+, n, -) 
-        scores = [(0, 0), 0, (0, 0)]
+        scores = [[0, 0], 0, [0, 0]]
 
         try:
             # call twitter api to fetch tweets
