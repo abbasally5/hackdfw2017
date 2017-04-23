@@ -46,7 +46,7 @@ def hashtag():
 
     else:
         api = TwitterClient()
-        tweets_dict = api.get_tweets(query = hashtag_text, lang='en', count=100)
+        tweets_dict = api.get_tweets(query = hashtag_text, lang='en', count=1000)
         #tweets = [json.dumps(tweet) for tweet in tweets_dict]
         #print json.dumps(tweets_dict)
         return jsonify(tweets=tweets_dict)

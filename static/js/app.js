@@ -1,10 +1,11 @@
+/*
 function Tweet(text, sentiment, polarity, favorites, retweets) {
     this.text = text;
     this.sentiment = sentiment;
     this.polarity = polarity;
     this.favorites = favorites;
     this.retweets = retweets;
-}
+};
 
 function Stats(sentimentArr, polarityArr) {
     this.numPos = sentimentArr['positive']; 
@@ -13,11 +14,19 @@ function Stats(sentimentArr, polarityArr) {
     this.avgPos = polarityArr['positive'];
     this.avgNeg = polarityArr['negative'];
     this.avgNeut = polarityArr['neutral'];
-}
+};
+*/
 
+var resp_success = function(json) {
+    console.log(json);
+    console.log(json.tweets);
+    init(json.tweets);
+    return true;
+};
 
+/*
 var hashtag_success = function(json) {
-    //alert('hastag_succes');
+    alert('hastag_succes');
     //var arr = JSON.stringify(json.tweets);
     var arr = json.tweets;
     //alert(arr);
@@ -56,7 +65,7 @@ var hashtag_success = function(json) {
         $('#tweets').append('<p>' + tweet.sentiment+ '</p>');
         $('#tweets').append('<p>' + tweet.polarity+ '</p>');
         $('#tweets').append('</br>');
-        */
+        *//*
 
     }
     polarArr['positive'] /= sentArr['positive'];
@@ -72,10 +81,11 @@ var hashtag_success = function(json) {
     $('#stats').append('<p>Avg Pos: ' + stats.avgPos + '</p>');
     $('#stats').append('<p>Avg Neg: ' + stats.avgNeg + '</p>');
     $('#stats').append('<p>Avg Neut: ' + stats.avgNeut + '</p>');
-    */
+    *//*
     init(tweets=json.tweets, numPos=sentArr['positive'], numNeg=sentArr['negative'], numNeut=sentArr['neutral']);
     return true;
 }
+*/
 
 $('#srch-term').keypress(function (e) {
     if (e.which == 13) {
@@ -90,13 +100,14 @@ $('#srch-term').keypress(function (e) {
             data: {
                 'hashtag': $("#srch-term").val()
                   },
-            success: hashtag_success
+            success: resp_success 
         });
         //alert('did ajax post');
     return false;
     }
 });
 
+/*
 $('#searchBar').submit(function(e) {
     e.preventDefault();
 
@@ -111,3 +122,4 @@ $('#searchBar').submit(function(e) {
     });
     
 });
+*/

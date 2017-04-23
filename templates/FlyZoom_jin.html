@@ -63,11 +63,6 @@
       <form id="searchBar" class="navbar-form" role="search">
         <div class="input-group add-on">
           <input class="form-control" placeholder="Get a glimpse into the world..." name="srch-term" id="srch-term" type="text">
-        	<script type="text/javascript">
-					$('#srch-term').click(function(){
-						$('#srch-term').prop('disabled', true\false);
-					});
-        	</script>
 				</div>
       </form>
         </div>
@@ -133,8 +128,8 @@
 			//document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 			init();
 			animate();
-			function init(tweets=null, numPos=null, numNeg=null, numNeut=null) {
-                alert('in init');
+			function init(scores=null) {
+                //alert('in init');
                 $('#refresh').empty();
                 //document.getElementById('searchBar').blur();
 				//container = document.createElement( 'div' );
@@ -169,14 +164,16 @@
 
                 var temp = new THREE.Mesh(geometry, material);
                 var total;
-                if (tweets == null) {
+                if (scores== null) {
                     total = 700;
                 }
                 else {
-                    total = numPos + numNeg + numNeut;
+                    total = scores[0][0] + scores[1] + scores[2][0];
 
-                    var posScore = tweets['pos_polarity'];
-                    var negScore = tweets['neg_polarity'];
+                    //var posScore = tweets['pos_polarity'];
+                    //var negScore = tweets['neg_polarity'];
+                    var posScore = scores[0][1];
+                    var negScore = scores[2][1];
                     
                     // ratio
                     var pos = posScore / (posScore + Math.abs(negScore));
@@ -205,7 +202,7 @@
                 }
 
 				for (var i = 0; i < total; i ++) {
-                    if (tweets == null)  {
+                    if (scores == null)  {
                         var rand = Math.round(Math.random()*500 - 1);
                         if(rand < 200)
                             color = green_sides;
