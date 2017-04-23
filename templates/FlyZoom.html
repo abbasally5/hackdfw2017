@@ -50,7 +50,7 @@
     <div class="row">
     <div class="col-xl-8">
     <div class="transparent">
-      <form class="navbar-form" role="search">
+      <form id="searchBar" class="navbar-form" role="search">
         <div class="input-group add-on">
           <input class="form-control" placeholder="Get a glimpse into the world..." name="srch-term" id="srch-term" type="text">
         </div>
@@ -59,6 +59,12 @@
     </div>
     </div>
     </div>
+    <div id="refresh">
+        
+    </div>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
 
 		<script src="static/js/three.min.js"></script>
 		<script src="static/js/Projector.js"></script>
@@ -77,7 +83,7 @@
             var controls;
             var clock = new THREE.Clock();
             var radius = 2000;
-			//var mouseX = 0, mouseY = 0;
+			var mouseX = 0, mouseY = 0;
 			var windowHalfX = window.innerWidth / 2;
 			var windowHalfY = window.innerHeight / 2;
             var red_sides = [
@@ -115,10 +121,14 @@
 			document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 			init();
 			animate();
-			function init() {
+			function init(tweets=null, numPos=null, numNeg=null, numNeut=null) {
+                //alert('in init');
+                $('#refresh').empty();
                 //document.getElementById('searchBar').blur();
-				container = document.createElement( 'div' );
-				document.body.appendChild( container );
+				//container = document.createElement( 'div' );
+                container = document.getElementById('refresh');
+				//document.body.appendChild( container );
+                //container.empty();
 				camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 15000 );
 				camera.position.z = 500;
                 
@@ -181,26 +191,33 @@
                 //*****************************************************//
                 
                 var temp = new THREE.Mesh(geometry, material);
-				for (var i = 0; i < 700; i ++) {
-                    var rand = Math.round(Math.random()*500 - 1);
-                    if(rand > 0 && rand < 50)
-                        color = white_sides;
-                    else if(rand < 250)
-                        color = green_sides;
-                    else
-                        color = blue_sides;
-                /*
-                var total,pos,neg,neu,grab;
-                  for (var i = 0; i < total; i ++) {
-                    if(grab == 0){
-                        color = white_sides;
+                var total;
+                if (tweets == null) {
+                    total = 700; 
+                }
+                else {
+                    total = numPos + numNeg + numNeut;
+                }
+				for (var i = 0; i < total; i ++) {
+                    if (tweets == null)  {
+                        var rand = Math.round(Math.random()*500 - 1);
+                        if(rand > 0 && rand < 50)
+                            color = white_sides;
+                        else if(rand < 250)
+                            color = green_sides;
+                        else
+                            color = blue_sides;
                     }
-                    else if(grab > 0){
-                        color = green_sides;
+                    else {
+                        if(tweets[i]['polarity'] == 0){
+                            color = white_sides;
+                        }
+                        else if(tweets[i]['polarity'] > 0){
+                            color = green_sides;
+                        }
+                        else
+                            color = blue_sides;
                     }
-                    else
-                        color = blue_sides;
-                */
                     var material = THREE.MeshFaceMaterial(color);
 					var mesh = new THREE.Mesh( geometry, material );
 					/*mesh.position.x = Math.random() * 2000 - 1000;
@@ -334,6 +351,6 @@
 				renderer.render( scene, camera );
 			}
 		</script>
-
+        <script type="text/javascript" src="/static/js/app.js"></script>
 	</body>
 </html>

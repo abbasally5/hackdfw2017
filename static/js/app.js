@@ -17,11 +17,7 @@ function Stats(sentimentArr, polarityArr) {
 
 
 var hashtag_success = function(json) {
-    //alert(json.tweets[0].text);
-    //alert(json.tweets[0].sentiment);
-    //alert(json.tweets[0]['text']);
-    //alert(JSON.stringify(json.tweets));
-    //alert(JSON.stringify(json));
+    //alert('hastag_succes');
     //var arr = JSON.stringify(json.tweets);
     var arr = json.tweets;
     //alert(arr);
@@ -77,11 +73,33 @@ var hashtag_success = function(json) {
     $('#stats').append('<p>Avg Neg: ' + stats.avgNeg + '</p>');
     $('#stats').append('<p>Avg Neut: ' + stats.avgNeut + '</p>');
     */
+    init(tweets=json.tweets, numPos=sentArr['positive'], numNeg=sentArr['negative'], numNeut=sentArr['neutral']);
     return true;
 }
 
+$('#srch-term').keypress(function (e) {
+    if (e.which == 13) {
+        e.preventDefault();
+        //alert('you pressed enter');
+        $('#srch-term').blur();
+        //alert('here');
+        $.ajax({
+            url: '/hashtag',
+            type: "POST",
+            datatype: "json",
+            data: {
+                'hashtag': $("#srch-term").val()
+                  },
+            success: hashtag_success
+        });
+        //alert('did ajax post');
+    return false;
+    }
+});
+
 $('#searchBar').submit(function(e) {
     e.preventDefault();
+
     $.ajax({
         url: '/hashtag',
         type: "POST",
