@@ -43,11 +43,11 @@ class TwitterClient(object):
         analysis = TextBlob(self.clean_tweet(tweet))
         # set sentiment
         if analysis.sentiment.polarity > 0:
-            return 'positive', analysis.sentiment.polarity
+            return analysis.sentiment.polarity
         elif analysis.sentiment.polarity == 0:
-            return 'neutral', analysis.sentiment.polarity
+            return analysis.sentiment.polarity
         else:
-            return 'negative', analysis.sentiment.polarity
+            return analysis.sentiment.polarity
 
     def get_tweet_polarity(self, tweet):
         analysis = TextBlob(self.clean_tweet(tweet))
@@ -74,16 +74,16 @@ class TwitterClient(object):
                 parsed_tweet = {}
 
                 # saving text of tweet
-                parsed_tweet['text'] = tweet['text']
+                #parsed_tweet['text'] = tweet['text']
                 # saving sentiment of tweet
                 #parsed_tweet['sentiment'] = self.get_tweet_sentiment(tweet['text'])
                 #saving polarity of tweet
                 #parsed_tweet['polarity'] = self.get_tweet_polarity(tweet['text'])
                 parsed_tweet['sentiment'], parsed_tweet['polarity'] = self.get_tweet_sentiment(tweet['text'])
                 #saving favorites of tweet
-                parsed_tweet['favorites'] = tweet['favorite_count']
+                #parsed_tweet['favorites'] = tweet['favorite_count']
                 #saving retweets of tweet
-                parsed_tweet['retweets'] = tweet['retweet_count']
+                #parsed_tweet['retweets'] = tweet['retweet_count']
 
 
                 # appending parsed tweet to tweets list
