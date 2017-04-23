@@ -1,6 +1,7 @@
 import re
 import tweepy
 import json
+from secrets import * 
 from tweepy import OAuthHandler
 from textblob import TextBlob
 
@@ -17,10 +18,10 @@ class TwitterClient(object):
         '''
 
         # keys and tokens from the Twitter Dev Console
-        consumer_key = 'cV4wnecpl9WIMZgocjeWfaCLa'
-        consumer_secret = 'owmk5cH8emocNZVQM7OyH99zszWjwhvucrfp7qUgtvls4Uzlar'
-        access_token = '1043044687-lXvSx8xRCC21RUmUtCjfiZHlOKt3idJfd5zef4T'
-        access_token_secret = 'iIitJeVgPYktg8akrC89MUolsHBnoYHjaQtJox5tfckSi'
+        consumer_key = TWITTER_CONSUMER_KEY 
+        consumer_secret = TWITTER_CONSUMER_SECRET 
+        access_token = TWITTER_ACCESS_TOKEN 
+        access_token_secret = TWITTER_ACCESS_TOKEN_SECRET 
 
         # attempt authentication
         try:

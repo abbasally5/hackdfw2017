@@ -1,3 +1,7 @@
+import sys
+reload(sys)
+sys.setdefaultencoding("utf-8")
+
 from flask import Flask
 from flask import render_template, request, redirect, url_for, jsonify, Response
 
@@ -6,7 +10,8 @@ import json
 
 app = Flask(__name__)
 
-_demo = ['corgi']
+#_demo = ['corgi']
+_demo = []
 
 @app.route("/")
 def hello():
@@ -22,27 +27,22 @@ def hashtag():
     # if user input is from demo, 
     if hashtag_text in _demo:
         with open(hashtag_text + '.txt') as f:
-            scores = [(0, 0), (0, 0)]
+            scores = [[0, 0], 0, [0, 0]]
 
             for line in f:
                 json_form = {}
                 _tweet = ' '.join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])" +\
-                    " |(\w+:\/\/\S+)", line).split())
+                    " |(\w+:\/\/\S+)", " ", line).split())
                 
-                analysis = TextBlob(clean_tweet)
-                if analysis.sentiment >= 0:
+                analysis = TextBlob(_tweet)
+                if analysis.polarity>= 0:
                     scores[0][0] += 1                   # increment positive
-                    scores[0][1] += analysis.sentiment  # add score (+)
+                    scores[0][1] += analysis.polarity# add score (+)
                 else:
-                    scores[1][0] += 1                   # increment negative
-                    scores[1][1] += analysis.sentiment  # add score (-)
+                    scores[2][0] += 1                   # increment negative
+                    scores[2][1] += analysis.polarity# add score (-)
 
-            return jsonify(
-                num_positive=scores[0][0],
-                pos_polarity=scores[0][1],
-                num_negative=scores[1][0],
-                neg_polarity=scores[1][1],
-            )
+            return jsonify(tweets=scores)
 
     else:
         api = TwitterClient()
