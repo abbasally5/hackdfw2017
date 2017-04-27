@@ -1,6 +1,7 @@
-# hackdfw2017
-
+# WorldView
 Live Demo: http://107.23.94.58
+
+![WorldView](worldviews.png?raw=true)
 
 ## Inspiration
 It has become increasingly important to be informed about what is going on in the world. However, actively searching out world views on the internet can be very time consuming. Therefore, we decided to give a WorldView of any topic at a glance.
@@ -15,21 +16,21 @@ We used three.js to power the front end data visualization and used flask, pytho
 
 You will require a twitter api key
 
-Replace the lines in test.py
+Replace the capitilized words in test.py
 ```
 consumer_key = TWITTER_CONSUMER_KEY
 consumer_secret = TWITTER_CONSUMER_SECRET
 access_token = TWITTER_ACCESS_TOKEN
 access_token_secret = TWITTER_ACCESS_TOKEN_SECRET
 ```
-with your key and you should be set!
+with your api credentials and you should be set!
 
 This project requires python2 and pip
 
 To install requirements, run
-```
-**$** pip freeze > requirements.txt
-```
+<pre> 
+<b>$</b> pip install -r requirements.txt
+</pre>
 and to run the app, run
 ```
 **$** python app.py
