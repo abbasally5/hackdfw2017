@@ -16,24 +16,24 @@ We used three.js to power the front end data visualization and used flask, pytho
 You will require a twitter api key
 
 Replace the lines in test.py
-'''
+```
 consumer_key = TWITTER_CONSUMER_KEY
 consumer_secret = TWITTER_CONSUMER_SECRET
 access_token = TWITTER_ACCESS_TOKEN
 access_token_secret = TWITTER_ACCESS_TOKEN_SECRET
-'''
+```
 with your key and you should be set!
 
 This project requires python2 and pip
 
 To install requirements, run
-'''
+```
 **$** pip freeze > requirements.txt
-'''
+```
 and to run the app, run
-'''
+```
 **$** python app.py
-'''
+```
 
 ## Contributors
-This project was made by ([Nathan Chin(nathan-chin)](https://github.com/nathan-chin)), ([Avi Minocha(tr8009)](https://github.com/tr8009)), ([Jin Yeom(jinyeom)](https://github.com/jinyeom)), ([Carlos L. Barahona(Sapulsic)](https://github.com/Sapulsic)), ([Abbas Ally(abbasally5)](https://github.com/abbasally5)) at Earthack 2017
+This project was made by ([Nathan Chin (nathan-chin)](https://github.com/nathan-chin)), ([Avi Minocha (tr8009)](https://github.com/tr8009)), ([Jin Yeom (jinyeom)](https://github.com/jinyeom)), ([Carlos L. Barahona (Sapulsic)](https://github.com/Sapulsic)), ([Abbas Ally (abbasally5)](https://github.com/abbasally5)) at Earthack 2017
