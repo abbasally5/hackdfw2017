@@ -5,7 +5,7 @@ sys.setdefaultencoding("utf-8")
 from flask import Flask
 from flask import render_template, request, redirect, url_for, jsonify, Response
 
-from test_jin import *
+from test import *
 import json
 
 app = Flask(__name__)
@@ -15,9 +15,7 @@ _demo = []
 
 @app.route("/")
 def hello():
-    #return render_template('base.html') 
-    #return render_template('bird/webgl_gpgpu_birds.html') 
-    return render_template('FlyZoom_jin.html')
+    return render_template('FlyZoom.html')
 
 
 @app.route("/hashtag", methods=['POST'])
@@ -26,7 +24,7 @@ def hashtag():
     
     # if user input is from demo, 
     if hashtag_text in _demo:
-        with open(hashtag_text + '.txt') as f:
+        with open('data/' + hashtag_text + '.txt') as f:
             scores = [[0, 0], 0, [0, 0]]
 
             for line in f:
@@ -53,4 +51,4 @@ def hashtag():
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=80)
