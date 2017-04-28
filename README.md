@@ -37,4 +37,4 @@ $ python app.py
 ```
 
 ## Contributors
-This project was made by ([Nathan Chin (nathan-chin)](https://github.com/nathan-chin)), ([Avi Minocha (tr8009)](https://github.com/tr8009)), ([Jin Yeom (jinyeom)](https://github.com/jinyeom)), ([Carlos L. Barahona (Sapulsic)](https://github.com/Sapulsic)), ([Abbas Ally (abbasally5)](https://github.com/abbasally5)) at Earthack 2017
+This project was made by [Nathan Chin (nathan-chin)](https://github.com/nathan-chin), [Avi Minocha (tr8009)](https://github.com/tr8009), [Jin Yeom (jinyeom)](https://github.com/jinyeom), [Carlos L. Barahona (Sapulsic)](https://github.com/Sapulsic), [Abbas Ally (abbasally5)](https://github.com/abbasally5) at Earthack 2017
