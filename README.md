@@ -15,7 +15,7 @@ We used three.js to power the front end data visualization and used flask, pytho
 ## How to install
 You will require a twitter api key
 
-Replace the capitilized words in test.py
+Replace the capitalized words in test.py
 ```
 consumer_key = TWITTER_CONSUMER_KEY
 consumer_secret = TWITTER_CONSUMER_SECRET
