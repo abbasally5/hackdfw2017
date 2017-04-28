@@ -33,7 +33,7 @@ To install requirements, run
 </pre>
 and to run the app, run
 ```
-**$** python app.py
+$ python app.py
 ```
 
 ## Contributors
