@@ -9,7 +9,7 @@ It has become increasingly important to be informed about what is going on in th
 ## What it does
 The user can search for a twitter hashtag and the data visualization shows the general twitter sentiment of the hashtag to the user. The color of the boxes correspond the general sentiment; green represents positive and blue represents negative.
 
-##How we built it
+## How we built it
 We used three.js to power the front end data visualization and used flask, python, the Twitter API, and the library tweepy to power the backend. We also used TextBlob for the sentiment analysis.
 
 ## How to install
